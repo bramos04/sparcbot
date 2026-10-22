@@ -108,11 +108,32 @@ class WheelController:
 
         # BEGIN SOLUTION
 
+        u = [0, 0]
+
+        u[LEFT] = self.config[LEFT].kp * (target_velocity_m_s[LEFT] - measured_velocity_m_s[LEFT]) + self.error_integral[LEFT]
+        u[RIGHT] = self.config[RIGHT].kp * (target_velocity_m_s[RIGHT] - measured_velocity_m_s[RIGHT]) + self.error_integral[RIGHT]
 
 
-        left_wheel_output = WheelControllerOutput(command=0.0) #TODO set command to your final controller output
+        # LEFT MOTOR
+        if u[LEFT] >= 1 or u[LEFT] <= -1:
+            # u[LEFT] = kp[LEFT] * (target_velocity_m_s[LEFT] - measured_velocity_m_s[LEFT]) + self.error_integral[LEFT]
+            self.error_integral[LEFT] = self.error_integral[LEFT]
+        else:
+            # u[LEFT] = kp[LEFT] * (target_velocity_m_s[LEFT] - measured_velocity_m_s[LEFT]) + self.error_integral[LEFT]
+            self.error_integral[LEFT] = self.error_integral[LEFT] + self.config[LEFT].ki * (target_velocity_m_s[LEFT] - measured_velocity_m_s[LEFT]) * dt_s
 
-        right_wheel_output = WheelControllerOutput(command=0.0) #TODO set command to your final controller output
+        # LEFT MOTOR
+        if u[RIGHT] >= 1 or u[RIGHT] <= -1:
+            # u[RIGHT] = kp[RIGHT] * (target_velocity_m_s[RIGHT] - measured_velocity_m_s[RIGHT]) + self.error_integral[RIGHT]
+            self.error_integral[RIGHT] = self.error_integral[RIGHT]
+        else:
+            # u[RIGHT] = kp[RIGHT] * (target_velocity_m_s[RIGHT] - measured_velocity_m_s[RIGHT]) + self.error_integral[RIGHT]
+            self.error_integral[RIGHT] = self.error_integral[RIGHT] + self.config[RIGHT].ki * (target_velocity_m_s[RIGHT] - measured_velocity_m_s[RIGHT]) * dt_s
+
+        left_wheel_output = WheelControllerOutput(command=u[LEFT]) #TODO set command to your final controller output
+
+        right_wheel_output = WheelControllerOutput(command=u[RIGHT]) #TODO set command to your final controller output
+
         return [left_wheel_output, right_wheel_output]
         # END SOLUTION
 
