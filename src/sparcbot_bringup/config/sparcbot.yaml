@@ -65,7 +65,7 @@ wheel_controller:
     log_file: ''
 
     left:
-      kp: 5.5
+      kp: 2.5
       ki: 5.0
       kd: 0.0
       feedforward:
@@ -80,7 +80,7 @@ wheel_controller:
         zero_velocity_threshold: 0.0005
 
     right:
-      kp: 5.0
+      kp: 2.5
       ki: 5.0
       kd: 0.0
       feedforward:
